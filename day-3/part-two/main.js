@@ -76,7 +76,7 @@ try {
                     if (numbersMap[pos_y][pos_x] == undefined) {
                         numbersMap[pos_y][pos_x] = []
                     }
-                    numbersMap[pos_y][pos_x].push(Number(line.substring(first_digit_pos, last_digit_pos + 1)))
+                    numbersMap[pos_y][pos_x].push(Number(line.substring(first_digit_pos, last_digit_pos + 1))) // +1 because substring is exclusive
                 }
             }
         }
