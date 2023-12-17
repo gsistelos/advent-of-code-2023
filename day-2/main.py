@@ -114,7 +114,7 @@ class Game:
 
 if len(sys.argv) != 2:
     print("Usage: python3", sys.argv[0], "<filename>")
-    exit(0)
+    exit(1)
 
 try:
     with open(sys.argv[1], "r") as file:
