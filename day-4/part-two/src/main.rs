@@ -62,19 +62,17 @@ fn draw_scratch_card(line: &str) -> usize {
     matched_numbers.len()
 }
 
-fn recursive_draw_scratch_cards(lines: &Vec<&str>, index: usize) -> usize {
-    let line = match lines.get(index) {
-        Some(line) => line,
+fn count_recursively(scratch_cards_results: &Vec<usize>, index: usize) -> usize {
+    let mut scratch_cards = match scratch_cards_results.get(index).cloned() {
+        Some(scratch_cards) => scratch_cards,
         None => return 0,
     };
 
-    let mut scratch_cards = draw_scratch_card(line);
-
     let mut index = index + 1;
-    let end = scratch_cards + index;
+    let final_index = scratch_cards + index;
 
-    while index < end {
-        scratch_cards += recursive_draw_scratch_cards(lines, index);
+    while index < final_index {
+        scratch_cards += count_recursively(scratch_cards_results, index);
         index += 1;
     }
 
@@ -97,13 +95,15 @@ fn main() {
         }
     };
 
-    let lines: Vec<&str> = file_content.lines().collect();
+    let lines = file_content.lines();
 
-    let mut total_scratch_cards = lines.len();
+    let scratch_cards_results: Vec<usize> = lines.map(|line| draw_scratch_card(line)).collect();
 
-    for line_index in 0..lines.len() - 1 {
-        total_scratch_cards += recursive_draw_scratch_cards(&lines, line_index);
+    let mut total_scratch_cards = scratch_cards_results.len();
+
+    for index in 0..scratch_cards_results.len() {
+        total_scratch_cards += count_recursively(&scratch_cards_results, index);
     }
 
-    println!("Total points: {}", total_scratch_cards);
+    println!("Total scratch_cards: {}", total_scratch_cards);
 }
